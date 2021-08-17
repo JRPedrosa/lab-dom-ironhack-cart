@@ -40,6 +40,7 @@ function calculateAll() {
   // ITERATION 3
   let totalPrice = document.querySelector("#total-value span")
 
+  totalPrice.innerText = 0;
   for (i = 0; i < everyProd.length; i++) {
     totalPrice.innerText = parseFloat(totalPrice.innerText) + updateSubtotal(everyProd[i])
   }
@@ -54,19 +55,54 @@ function calculateAll() {
 function removeProduct(event) {
   const target = event.currentTarget;
   console.log('The target in remove is:', target);
-  //... your code goes here
+  
+  target.parentNode.parentNode.remove();
+  calculateAll();
 }
 
 // ITERATION 5
 
-function createProduct() {
-  //... your code goes here
-}
+// Solution not done by me. For future reference !!!
+/*function createProduct() {
+  const createRow = document.querySelector('.create-product');
+  let newProdNameInput = createRow.querySelector('input');
+  let newProdNameValue = newProdNameInput.value;
+  let newProdPriceInput = createRow.querySelector("input[type='number']");
+  let newProdPriceValue = Number(newProdPriceInput.valueAsNumber).toFixed(2);
+  const newTableRow = document.createElement('tr');
+  newTableRow.className = 'product';
+  newTableRow.innerHTML = `
+    <td class="name">
+      <span>${newProdNameValue}</span>
+    </td>
+    <td class="price">$<span>${newProdPriceValue}</span></td>
+    <td class="quantity">
+      <input type="number" value="0" min="0" placeholder="Quantity" />
+    </td>
+    <td class="subtotal">$<span>0</span></td>
+    <td class="action">
+      <button class="btn btn-remove">Remove</>
+    </td>
+  `;
+  // get the parent of this newly created row
+  const parent = document.querySelector('#cart tbody');
+  // append the newly created row to the parent
+  parent.appendChild(newTableRow);
+  // make sure remove button inherits the same behavior as other remove buttons
+  const removeBtn = newTableRow.querySelector('.btn-remove');
+  removeBtn.addEventListener('click', removeProduct);
+  // clean the fields
+  newProdNameInput.value = '';
+  newProdPriceInput.value = 0;
+} */
 
 window.addEventListener('load', () => {
   const calculatePricesBtn = document.getElementById('calculate');
   calculatePricesBtn.addEventListener('click', calculateAll);
 
-  const calculatePricesBtn = document.getElementById('calculate');
-  calculatePricesBtn.addEventListener('click', calculateAll);
+  const removeProd = document.getElementsByClassName("btn btn-remove");
+  for (i = 0; i < removeProd.length; i++) {
+    removeProd[i].addEventListener('click', removeProduct);
+  }
+  
 });
